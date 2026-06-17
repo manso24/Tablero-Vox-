@@ -19,9 +19,7 @@ import { AudioPlayer } from "./components/AudioPlayer";
 const MAX_CHAR_LIMIT = 10000;
 
 export default function App() {
-  const [text, setText] = useState(
-    "[serious] [emphasis] Senhoras e senhores, bem-vindos ao Tablero Vox! [pause 2] \n\n[confident] Esta é uma tecnologia de ponta projetada para narrar seus documentários geopolíticos com máxima intensidade e tom solene. [pause] [slow] Experimente mudar as vozes disponíveis na barra lateral [neutral] ou adicione as tags de controle como [serious] ou [emphasis] para personalizar a cadência e sentimento da narração."
-  );
+  const [text, setText] = useState("");
   
   // Custom TTS settings
   const [selectedLanguage, setSelectedLanguage] = useState<Language>(LANGUAGES[0]);
@@ -45,7 +43,10 @@ export default function App() {
 
   // Triggers immediate synthesis for the drafted text
   const handleGenerateAudio = async () => {
-    if (!text.trim()) return;
+    if (!text.trim()) {
+      setErrorMessage("O campo de texto está vazio. Digite ou cole o seu roteiro no campo de texto acima para sintetizar!");
+      return;
+    }
 
     if (text.length > MAX_CHAR_LIMIT) {
       setErrorMessage(`O texto excede o limite estrito de ${MAX_CHAR_LIMIT.toLocaleString()} caracteres definido para o estúdio.`);
@@ -209,18 +210,18 @@ export default function App() {
 
               <button
                 onClick={handleGenerateAudio}
-                disabled={isGenerating || !text.trim()}
-                className="w-full py-4.5 rounded-2xl bg-gradient-to-r from-violet-600 via-purple-500 to-pink-500 hover:from-violet-500 hover:via-purple-400 hover:to-pink-400 disabled:from-slate-900 disabled:to-slate-900 disabled:text-slate-600 text-white font-black tracking-widest text-xs uppercase transition-all shadow-xl shadow-violet-500/10 hover:scale-[1.005] active:scale-100 flex items-center justify-center gap-2.5 cursor-pointer border-t border-white/15"
+                disabled={isGenerating}
+                className="w-full py-4.5 rounded-2xl bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 disabled:from-slate-900 disabled:to-slate-900 disabled:text-slate-600 text-white font-bold tracking-wider text-sm transition-all shadow-[0_0_20px_rgba(124,58,237,0.25)] hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] hover:scale-[1.005] active:scale-[0.99] flex items-center justify-center gap-2.5 cursor-pointer border-t border-white/15"
               >
                 {isGenerating ? (
                   <>
                     <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>PROCESSANDO REPRODUÇÃO AUDIOFÔNICA...</span>
+                    <span>Generating Audio...</span>
                   </>
                 ) : (
                   <>
-                    <Volume2 size={18} className="stroke-[2.5]" />
-                    <span>Iniciar Síntese de Voz Imediata</span>
+                    <Volume2 size={18} className="stroke-[2] animate-pulse" />
+                    <span>Generate Audio</span>
                   </>
                 )}
               </button>
