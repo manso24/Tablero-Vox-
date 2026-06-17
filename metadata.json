@@ -1,0 +1,6 @@
+{
+  "name": "Tablero Vox",
+  "description": "Estúdio profissional de conversão de texto para áudio de alta fidelidade usando Gemini 3.1 Flash TTS com suporte a sotaques e 10 vozes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
